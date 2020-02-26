@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        table {
+            table-layout: fixed; /* ????????????? ?????? ????? */
+            width: 100%; /* ?????? ??????? */
+            word-wrap: break-word;
+        }
+        .col1 { width: 160px; }
+        .coln { width: 60px; }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Admin Panel</title>
+</head>
+<form method="GET" action="/">
+    <button type="submit">профиль</button>
+</form>
+<br>
+<br>
+
+<form action="#" th:action="@{/admin/add-new-user}" method="POST">
+    <label>LOGIN</label>
+    <input type="text" name="login">
+    <label>PASS</label>
+    <input type="text" name="pass">
+    <label>EMAIL</label>
+    <input type="text" name="email">
+    <select name='role'>
+        <th:block th:each="role : ${roles}">
+            <option th:value="${role.role}"><span th:text="${role.role}">1</span></option>
+        </th:block>
+    </select>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <input type="submit" value="ADD">
+</form>
+
+<body>
+<div th:if="${#lists.size(users) > 0}">
+    </table>
+    <table border="1" cellspacing="0" cellpadding="2">
+        <br>
+        <br>
+        <tr>
+            <td>ID</td>
+            <td>LOGIN</td>
+            <td>PASS</td>
+            <td>EMAIL</td>
+            <td>ROLE</td>
+        </tr>
+
+        <th:block th:each="user : ${users}">
+
+            <tr>
+                <td>
+                    <span th:text="${user.id}">1</span>
+                </td>
+                <td>
+                    <span th:text="${user.login}">login</span>
+                </td>
+
+                <td>
+                    <span th:text="${user.pass}">pass</span>
+                </td>
+
+                <td>
+                    <span th:text="${user.email}">email</span>
+                </td>
+
+                <td>
+                    <th:block th:each="role : ${user.roles}">
+                        <span th:text="${role.role}">role</span>
+                    </th:block>
+                </td>
+
+                <td>
+                    <input type="button" value="update" th:onClick="|location.href='/admin/update/${user.id}'|">
+                    <input type="button" value="delete" th:onClick="|location.href='/admin/delete/${user.id}'|">
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>update User page</title>
+</head>
+<body>
+<table border="1" cellspacing="0" cellpadding="2">
+    <br>
+    <br>
+    <tr>
+        <td>ID</td>
+        <td>LOGIN</td>
+        <td>PASS</td>
+        <td>EMAIL</td>
+        <td>ROLE</td>
+    </tr>
+    <tr>
+        <form method="POST" action="/admin/update">
+            <td>
+                <input type="text" name="id" th:value="${user.id}" hidden>
+            </td>
+            <td>
+                <input type="text" name="login" th:value="${user.login}">
+            </td>
+
+            <td>
+                <input type="text" name="pass" placeholder="новый пароль">
+            </td>
+
+            <td>
+                <input type="text" name="email" th:value="${user.email}">
+            </td>
+
+            <td>
+                <select name='role'>
+                    <option th:value="${selected.role}" th:selected><span th:text="${selected.role}">1</span></option>
+                    <th:block th:each="role : ${roles}">
+                        <div th:if="${role.role != selected.role}">
+                            <option th:value="${role.role}"><span th:text="${role.role}">1</span></option>
+                        </div>
+                    </th:block>
+                </select>
+            </td>
+
+            <td>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">update</button>
+            </td>
+
+        </form>
+    </tr>
+</table>
+</body>
+</html>
